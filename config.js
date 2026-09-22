@@ -1,0 +1,1 @@
+window.SUPABASE_URL="ضع_رابط_مشروع_Supabase_هنا";window.SUPABASE_ANON_KEY="ضع_مفتاح_Anon_هنا";

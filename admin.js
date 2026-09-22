@@ -1,0 +1,9 @@
+let db=null;try{if(SUPABASE_URL&&!SUPABASE_URL.includes('ضع_'))db=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY)}catch(e){}
+async function auth(mode){if(!db){authMsg.textContent='لم يتم ربط قاعدة البيانات بعد.';return}let e=email.value.trim(),p=password.value;let r=mode==='login'?await db.auth.signInWithPassword({email:e,password:p}):await db.auth.signUp({email:e,password:p});authMsg.textContent=r.error?r.error.message:(mode==='signup'?'تم إنشاء الحساب. إذا طلب تأكيد البريد، أكد البريد ثم ارجع.':'تم الدخول');if(!r.error)load()}
+login.onclick=()=>auth('login');signup.onclick=()=>auth('signup');logout.onclick=async()=>{await db.auth.signOut();location.reload()};
+async function load(){if(!db)return;let u=await db.auth.getUser();if(!u.data.user)return;authBox.classList.add('hidden');editor.classList.remove('hidden');let r=await db.from('menu_items').select('*').order('category').order('sort_order');render(r.data||[])}
+function render(a){items.innerHTML=a.map(x=>'<div class="panel item"><input value="'+x.category+'"><input value="'+x.name+'"><input value="'+(x.price||'')+'" placeholder="السعر"><button onclick="save('+x.id+',this)">حفظ</button></div>').join('')}
+async function save(id,b){let q=b.parentElement.querySelectorAll('input');let r=await db.from('menu_items').update({category:q[0].value,name:q[1].value,price:q[2].value}).eq('id',id);b.textContent=r.error?'خطأ':'تم ✓'}
+addItem.onclick=async()=>{let c=prompt('القسم؟'),n=prompt('اسم الصنف؟');if(c&&n){await db.from('menu_items').insert({category:c,name:n,price:'',active:true,sort_order:999});load()}}
+addCat.onclick=async()=>{let c=prompt('اسم القسم الجديد؟'),n=prompt('أول صنف؟');if(c&&n){await db.from('menu_items').insert({category:c,name:n,price:'',active:true,sort_order:999});load()}}
+if(db)load();
