@@ -33,7 +33,7 @@ const data=[
 ["المشروبات الباردة",["بيبسي","ميرندا","سفن أب","مشروبات الطاقة (جميع الأنواع)","عصائر طبيعية (جميع الأنواع)"]],
 ["الأركيلة",["تفاحتين","عنب","ليمون ونعناع","ليمون وتفاح","نكهات أخرى حسب المتوفر"]]
 ];
-document.getElementById("menu").innerHTML=data.map(([title,items])=>`<section class="card"><h2>${title}</h2>${items.map(x=>`<div class="item"><span>${x}</span><span class="price">السعر</span></div>`).join("")}</section>`).join("");
+document.getElementById("menu").innerHTML=data.map(([title,items])=>`<section class="card"><h2>${title}</h2>${items.map(x=>`<div class="item"><span>${x}</span><span class="price">250</span></div>`).join("")}</section>`).join("");
 </script>
 </body>
 </html>
